@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nashwa Maulina — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Silkscreen&family=Yellowtail&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sky: #c9d4ff;
+      --peri: #a9b8ff;
+      --blue: #5b74f0;
+      --blue-d: #3a4fc4;
+      --lime: #d4f57a;
+      --lime-d: #9ad84a;
+      --pink: #ffb3d9;
+      --hot: #ff6fb1;
+      --cream: #fffbea;
+      --ink: #2a2c6e;
+      --ink-soft: #5a5d9a;
+      --white: #ffffff;
+      --line: #2a2c6e;
+      --radius: 22px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      position: relative;
+      font-family: 'Outfit', sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #b7c5ff 0%, #d8dfff 35%, #f4f0ff 60%, #ffe3f1 100%);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* titik-titik halftone di latar */
+    body::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,.55) 1.2px, transparent 1.4px);
+      background-size: 14px 14px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a { color: inherit; }
+    section, header, footer, nav { position: relative; z-index: 1; }
+
+    .pixel { font-family: 'Silkscreen', monospace; letter-spacing: .04em; }
+    .script { font-family: 'Yellowtail', 'Brush Script MT', cursive; font-weight: 400; }
+
+    /* ========== NAVBAR ========== */
+    nav {
+      position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+      width: min(920px, calc(100% - 32px));
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 12px 10px 18px;
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(12px);
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      z-index: 50;
+    }
+    .nav-dots { display: flex; gap: 6px; margin-right: 12px; }
+    .nav-dots span { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--line); }
+    .nav-dots span:nth-child(1) { background: var(--hot); }
+    .nav-dots span:nth-child(2) { background: var(--lime); }
+    .nav-dots span:nth-child(3) { background: var(--peri); }
+    .brand { display: flex; align-items: center; font-weight: 800; text-decoration: none; font-size: 1.05rem; }
+    .nav-links { display: flex; gap: 4px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-weight: 600; font-size: .9rem;
+      padding: 8px 14px; border-radius: 999px; transition: background .2s;
+    }
+    .nav-links a:hover { background: var(--sky); }
+    .nav-links a.cta {
+      background: linear-gradient(180deg, #eaffb0, var(--lime) 55%, var(--lime-d));
+      border: 2px solid var(--line);
+    }
+    .menu-btn { display: none; background: none; border: 2px solid var(--line); border-radius: 999px; padding: 6px 12px; font: inherit; font-weight: 700; color: var(--ink); cursor: pointer; }
+
+    /* ========== TOMBOL ========== */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-width: 190px; padding: 12px 26px;
+      font-family: 'Silkscreen', monospace; font-size: .95rem; color: var(--ink);
+      text-decoration: none;
+      border: 2px solid var(--line); border-radius: 14px;
+      background: linear-gradient(180deg, #f3ffd1 0%, var(--lime) 50%, var(--lime-d) 100%);
+      box-shadow: inset 0 2px 0 rgba(255,255,255,.8), 0 4px 0 var(--line);
+      transition: transform .15s, box-shadow .15s;
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(2px); box-shadow: inset 0 2px 0 rgba(255,255,255,.8), 0 2px 0 var(--line); }
+    .btn.pink { background: linear-gradient(180deg, #ffe6f3 0%, var(--pink) 50%, var(--hot) 100%); }
+    .btn.white { background: linear-gradient(180deg, #fff 0%, #f1f3ff 100%); }
+
+    /* ========== HIASAN ========== */
+    .sparkle { position: absolute; pointer-events: none; animation: twinkle 3s ease-in-out infinite; }
+    .heart { position: absolute; pointer-events: none; animation: float 5s ease-in-out infinite; filter: drop-shadow(0 6px 8px rgba(80,120,40,.25)); }
+    @keyframes twinkle { 0%,100% { transform: scale(1) rotate(0deg); opacity: 1; } 50% { transform: scale(.7) rotate(20deg); opacity: .6; } }
+    @keyframes float { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-14px) rotate(6deg); } }
+
+    /* ========== HERO ========== */
+    .hero {
+      min-height: 100vh;
+      display: grid; place-items: center;
+      padding: 120px 20px 60px;
+      overflow: hidden;
+    }
+    .hero-inner { position: relative; width: min(1100px, 100%); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 20px; }
+    .hero-text { text-align: right; }
+    .hero-text.right { text-align: left; }
+    .hello-pill {
+      display: inline-block; padding: 6px 16px; margin-bottom: 14px;
+      background: var(--cream); border: 2px solid var(--line); border-radius: 999px;
+      font-size: .8rem;
+    }
+    .hero-name {
+      font-size: clamp(4rem, 9vw, 7.5rem); line-height: .9;
+      background: linear-gradient(180deg, #ffffff 0%, var(--lime) 45%, var(--lime-d) 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      -webkit-text-stroke: 2px var(--ink);
+      filter: drop-shadow(4px 4px 0 var(--blue));
+    }
+    .hero-sub {
+      font-size: clamp(1.4rem, 3vw, 2.2rem); margin-top: 6px;
+      color: var(--hot); -webkit-text-stroke: 1px var(--ink);
+    }
+    .hero-role { margin-top: 14px; font-weight: 600; color: var(--ink-soft); max-width: 300px; }
+    .hero-text:not(.right) .hero-role { margin-left: auto; }
+
+    .photo-frame {
+      position: relative; width: min(340px, 72vw); aspect-ratio: 3/4.2;
+      display: flex; align-items: flex-end; justify-content: center;
+    }
+    .photo-frame::before {
+      content: ""; position: absolute; inset: 8% 0 0 0;
+      background: radial-gradient(circle at 50% 40%, #ffffff 0%, var(--pink) 45%, var(--peri) 100%);
+      border: 2px solid var(--line);
+      border-radius: 200px 200px 28px 28px;
+    }
+    .photo-frame::after {
+      content: ""; position: absolute; inset: 8% 0 0 0;
+      background-image: radial-gradient(rgba(255,255,255,.7) 1.5px, transparent 1.8px);
+      background-size: 10px 10px;
+      border-radius: 200px 200px 28px 28px;
+      -webkit-mask-image: linear-gradient(180deg, transparent 40%, #000 100%);
+              mask-image: linear-gradient(180deg, transparent 40%, #000 100%);
+    }
+    .photo-frame img { position: relative; z-index: 2; width: 92%; height: auto; display: block; border-radius: 0 0 26px 26px; }
+
+    .hero-menu { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+
+    .marquee {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: var(--ink); color: var(--lime);
+      overflow: hidden; white-space: nowrap; padding: 10px 0;
+      border-top: 2px solid var(--ink);
+    }
+    .marquee-track { display: inline-block; animation: scroll 28s linear infinite; font-size: .9rem; }
+    .marquee-track span { margin: 0 22px; }
+    @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ========== SECTION UMUM ========== */
+    .section { padding: 100px 20px; }
+    .container { width: min(1100px, 100%); margin: 0 auto; }
+    .section-head { text-align: center; margin-bottom: 48px; position: relative; }
+    .section-tag {
+      display: inline-block; padding: 5px 14px; margin-bottom: 8px;
+      background: var(--white); border: 2px solid var(--line); border-radius: 999px; font-size: .75rem;
+    }
+    .section-title {
+      display: inline-block; font-size: clamp(2.8rem, 6vw, 4.2rem); line-height: 1.1;
+      padding: 4px 34px 12px;
+      background: linear-gradient(180deg, #fffde0, #fff59a);
+      border: 2px solid var(--line); border-radius: 999px;
+      color: var(--blue); -webkit-text-stroke: 1px var(--ink);
+      transform: rotate(-2deg);
+      box-shadow: 5px 5px 0 var(--ink);
+    }
+
+    /* jendela gaya OS retro */
+    .window {
+      background: rgba(255,255,255,.85);
+      border: 2px solid var(--line); border-radius: var(--radius);
+      box-shadow: 6px 6px 0 var(--ink);
+      overflow: hidden;
+    }
+    .window-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px; border-bottom: 2px solid var(--line);
+      background: linear-gradient(90deg, var(--sky), var(--pink));
+      font-size: .8rem;
+    }
+    .window-bar .dots { display: flex; gap: 6px; }
+    .window-bar .dots span { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--line); background: var(--white); }
+    .window-body { padding: 26px; }
+
+    /* ========== ABOUT ========== */
+    .about-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 26px; align-items: start; }
+    .about-intro h3 { font-size: 1.7rem; line-height: 1.2; margin-bottom: 12px; }
+    .about-intro h3 em { font-style: normal; color: var(--hot); }
+    .about-intro p { color: var(--ink-soft); margin-bottom: 18px; }
+
+    .id-card { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size: .95rem; padding: 18px; background: var(--cream); border: 2px dashed var(--line); border-radius: 16px; margin-bottom: 20px; }
+    .id-card dt { font-family: 'Silkscreen', monospace; font-size: .75rem; color: var(--blue); padding-top: 3px; }
+    .id-card dd { font-weight: 600; }
+
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .stat { text-align: center; padding: 14px 8px; border: 2px solid var(--line); border-radius: 16px; background: linear-gradient(180deg, #fff, var(--sky)); }
+    .stat b { display: block; font-size: 1.7rem; line-height: 1.1; }
+    .stat small { font-size: .7rem; }
+
+    .timeline-title { display: inline-block; font-size: 2rem; color: var(--blue); -webkit-text-stroke: .6px var(--ink); padding: 0 18px 6px; background: #fff59a; border: 2px solid var(--line); border-radius: 999px; margin-bottom: 16px; }
+    .timeline { list-style: none; position: relative; padding-left: 28px; margin-bottom: 26px; }
+    .timeline::before { content: ""; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+    .timeline li { position: relative; margin-bottom: 16px; }
+    .timeline li::before {
+      content: "✿"; position: absolute; left: -29px; top: -3px;
+      font-size: 1.15rem; color: var(--hot); background: var(--white); line-height: 1;
+    }
+    .timeline .year { font-size: .72rem; color: var(--blue); }
+    .timeline h4 { font-size: 1rem; line-height: 1.3; }
+    .timeline p { font-size: .88rem; color: var(--ink-soft); }
+
+    .now { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 26px; }
+    .now-item { display: flex; gap: 12px; align-items: flex-start; padding: 16px; background: rgba(255,255,255,.85); border: 2px solid var(--line); border-radius: 18px; }
+    .now-icon { flex: none; width: 42px; height: 42px; display: grid; place-items: center; font-size: 1.2rem; border: 2px solid var(--line); border-radius: 12px; background: var(--lime); }
+    .now-item:nth-child(2) .now-icon { background: var(--pink); }
+    .now-item:nth-child(3) .now-icon { background: var(--sky); }
+    .now-item b { display: block; font-size: .95rem; }
+    .now-item span { font-size: .85rem; color: var(--ink-soft); }
+
+    /* ========== WHAT I CAN DO ========== */
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .skill-card { display: flex; flex-direction: column; }
+    .skill-card .window-body { display: flex; flex-direction: column; flex: 1; }
+    .skill-num { font-size: 2.6rem; line-height: 1; color: var(--white); -webkit-text-stroke: 1.5px var(--ink); text-shadow: 3px 3px 0 var(--hot); margin-bottom: 10px; }
+    .skill-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
+    .skill-card p { font-size: .92rem; color: var(--ink-soft); margin-bottom: 16px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+    .chip { padding: 4px 12px; font-size: .78rem; font-weight: 600; border: 2px solid var(--line); border-radius: 999px; background: #fff3d1; }
+    .chip:nth-child(3n+2) { background: #ffe0f0; }
+    .chip:nth-child(3n) { background: #e6ebff; }
+
+    .tools { margin-top: 34px; text-align: center; }
+    .tools h3 { font-size: 2rem; color: var(--hot); -webkit-text-stroke: .6px var(--ink); margin-bottom: 14px; }
+    .tool-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .tool {
+      display: flex; align-items: center; gap: 8px; padding: 10px 16px;
+      background: var(--white); border: 2px solid var(--line); border-radius: 16px;
+      font-weight: 600; font-size: .9rem; box-shadow: 3px 3px 0 var(--ink);
+    }
+    .tool i { font-style: normal; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 8px; border: 2px solid var(--line); font-size: .7rem; font-family: 'Silkscreen', monospace; }
+
+    /* ========== ACHIEVEMENT ========== */
+    .ach-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+    .ach-card { position: relative; }
+    .ach-card .badge {
+      display: inline-block; padding: 3px 12px; font-size: .72rem; margin-bottom: 10px;
+      border: 2px solid var(--line); border-radius: 999px; background: var(--lime);
+    }
+    .ach-card h3 { font-size: 1.2rem; line-height: 1.3; margin-bottom: 4px; }
+    .ach-meta { font-size: .85rem; color: var(--blue); font-weight: 600; margin-bottom: 10px; }
+    .ach-card p { font-size: .92rem; color: var(--ink-soft); margin-bottom: 14px; }
+    .ach-link { font-size: .85rem; font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--hot); }
+
+    /* ========== CONTACT ========== */
+    .contact-box { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
+    .contact-title { font-size: clamp(3rem, 7vw, 5rem); line-height: .95; color: var(--white); -webkit-text-stroke: 2px var(--ink); text-shadow: 5px 5px 0 var(--hot); margin-bottom: 14px; }
+    .contact-left p { color: var(--ink-soft); margin-bottom: 22px; max-width: 420px; }
+    .contact-list { display: flex; flex-direction: column; gap: 14px; }
+    .contact-item {
+      display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+      background: var(--white); border: 2px solid var(--line); border-radius: 18px;
+      text-decoration: none; box-shadow: 4px 4px 0 var(--ink); transition: transform .15s;
+      word-break: break-word;
+    }
+    .contact-item:hover { transform: translate(-2px, -2px); }
+    .contact-item .ic { flex: none; width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; border: 2px solid var(--line); }
+    .contact-item:nth-child(1) .ic { background: var(--pink); }
+    .contact-item:nth-child(2) .ic { background: var(--lime); }
+    .contact-item:nth-child(3) .ic { background: var(--sky); }
+    .contact-item small { display: block; font-size: .7rem; color: var(--blue); }
+    .contact-item b { font-size: .95rem; overflow-wrap: anywhere; }
+
+    footer { text-align: center; padding: 30px 20px 40px; font-size: .85rem; color: var(--ink-soft); }
+
+    /* animasi muncul saat scroll */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.show { opacity: 1; transform: none; }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-text, .hero-text.right { text-align: center; }
+      .hero-text:not(.right) .hero-role { margin: 14px auto 0; }
+      .hero-menu { align-items: center; }
+      .photo-frame { margin: 0 auto; }
+      .about-grid, .contact-box { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .ach-grid { grid-template-columns: 1fr; }
+      .now { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .menu-btn { display: block; }
+      .nav-links {
+        display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+        flex-direction: column; padding: 10px; background: var(--white);
+        border: 2px solid var(--line); border-radius: 20px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-dots { display: none; }
+      .section { padding: 80px 16px; }
+      .window-body { padding: 20px; }
+      .stats { grid-template-columns: repeat(3, 1fr); }
+      .stat b { font-size: 1.3rem; }
+      .heart { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- simbol sparkle dan hati yang dipakai berulang -->
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <symbol id="spark" viewBox="0 0 40 40"><path d="M20 0 C21 13 27 19 40 20 C27 21 21 27 20 40 C19 27 13 21 0 20 C13 19 19 13 20 0Z"/></symbol>
+      <symbol id="star8" viewBox="0 0 40 40"><g stroke-width="2.4" stroke-linecap="round"><line x1="20" y1="2" x2="20" y2="38"/><line x1="2" y1="20" x2="38" y2="20"/><line x1="7" y1="7" x2="33" y2="33"/><line x1="33" y1="7" x2="7" y2="33"/></g></symbol>
+      <radialGradient id="jelly" cx="35%" cy="30%" r="75%">
+        <stop offset="0%" stop-color="#ffffff"/>
+        <stop offset="25%" stop-color="#e8ffb8"/>
+        <stop offset="70%" stop-color="#a6d96a"/>
+        <stop offset="100%" stop-color="#6fa83c"/>
+      </radialGradient>
+      <symbol id="heart" viewBox="0 0 100 90"><path d="M50 86 C20 64 2 46 2 26 C2 12 13 2 27 2 C38 2 46 9 50 18 C54 9 62 2 73 2 C87 2 98 12 98 26 C98 46 80 64 50 86Z" fill="url(#jelly)" stroke="#5e8f33" stroke-width="2"/><ellipse cx="28" cy="22" rx="10" ry="6" fill="#fff" opacity=".85" transform="rotate(-25 28 22)"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav>
+    <a href="#home" class="brand">
+      <span class="nav-dots"><span></span><span></span><span></span></span>
+      nashwa<span style="color:var(--hot)">.</span>
+    </a>
+    <button class="menu-btn pixel" id="menuBtn" aria-label="Buka menu">menu</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">What I Can Do</a></li>
+      <li><a href="#achievement">Achievement</a></li>
+      <li><a href="#contact" class="cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero" id="home">
+    <svg class="sparkle" style="top:16%;left:8%;width:34px;fill:#fff"><use href="#spark"/></svg>
+    <svg class="sparkle" style="top:26%;right:10%;width:46px;stroke:var(--ink);animation-delay:1s"><use href="#star8"/></svg>
+    <svg class="sparkle" style="bottom:22%;left:14%;width:40px;stroke:var(--blue);animation-delay:.5s"><use href="#star8"/></svg>
+    <svg class="sparkle" style="bottom:28%;right:6%;width:26px;fill:#fff59a;animation-delay:1.6s"><use href="#spark"/></svg>
+    <svg class="sparkle" style="top:60%;left:4%;width:20px;fill:var(--hot);animation-delay:2s"><use href="#spark"/></svg>
+    <svg class="heart" style="top:18%;right:22%;width:70px"><use href="#heart"/></svg>
+    <svg class="heart" style="bottom:16%;left:6%;width:56px;animation-delay:1.5s"><use href="#heart"/></svg>
+
+    <div class="hero-inner">
+      <div class="hero-text reveal">
+        <span class="hello-pill pixel">✦ hello, i'm</span>
+        <h1 class="hero-name script">Nashwa</h1>
+        <p class="hero-sub script">Maulina Nur Ramadhani</p>
+        <p class="hero-role">Mahasiswa S1 Sistem Informasi, Universitas Negeri Surabaya</p>
+      </div>
+
+      <div class="photo-frame reveal">
+        <img src="foto-nashwa.png" alt="Foto Nashwa Maulina Nur Ramadhani">
+      </div>
+
+      <div class="hero-text right reveal">
+        <div class="hero-menu">
+          <a href="#about" class="btn">About</a>
+          <a href="#skills" class="btn">Skills</a>
+          <a href="#achievement" class="btn">Achievement</a>
+          <a href="#contact" class="btn pink">Contact</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="marquee pixel" aria-hidden="true">
+      <div class="marquee-track">
+        <span>✦ sistem informasi</span><span>♡ future business analyst</span><span>✦ digital seller</span><span>♡ IT support</span><span>✦ creative design</span><span>♡ unesa 2026</span>
+        <span>✦ sistem informasi</span><span>♡ future business analyst</span><span>✦ digital seller</span><span>♡ IT support</span><span>✦ creative design</span><span>♡ unesa 2026</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== ABOUT ME ===== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag pixel">01 / about me</span><br>
+        <h2 class="section-title script">About Me</h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="window reveal">
+          <div class="window-bar pixel"><div class="dots"><span></span><span></span><span></span></div><span>profile.exe</span></div>
+          <div class="window-body about-intro">
+            <h3>Curious learner yang suka mengubah <em>data</em> dan <em>ide</em> jadi solusi.</h3>
+            <p>Halo! Aku Nashwa, mahasiswa baru S1 Sistem Informasi di Universitas Negeri Surabaya. Berangkat dari latar belakang Teknik Komputer dan Jaringan, aku tertarik pada bagaimana teknologi bisa membantu bisnis mengambil keputusan yang lebih baik. Di luar kuliah, aku menjalankan usaha penjualan produk digital secara mandiri dan senang mempelajari hal baru.</p>
+
+            <dl class="id-card">
+              <dt>Nama</dt><dd>Nashwa Maulina Nur Ramadhani</dd>
+              <dt>NIM</dt><dd>26051214039</dd>
+              <dt>Prodi</dt><dd>S1 Sistem Informasi</dd>
+              <dt>Kelas</dt><dd>2026D</dd>
+              <dt>Kampus</dt><dd>Universitas Negeri Surabaya</dd>
+            </dl>
+
+            <div class="stats">
+              <div class="stat"><b class="pixel">2+</b><small>tahun jualan digital</small></div>
+              <div class="stat"><b class="pixel">6</b><small>bulan PKL IT</small></div>
+              <div class="stat"><b class="pixel">1</b><small>sertifikasi Google</small></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="window reveal">
+          <div class="window-bar pixel"><div class="dots"><span></span><span></span><span></span></div><span>journey.txt</span></div>
+          <div class="window-body">
+            <h3 class="timeline-title script">Education</h3>
+            <ul class="timeline">
+              <li><span class="year pixel">2026 – sekarang</span><h4>Universitas Negeri Surabaya</h4><p>S1 Sistem Informasi</p></li>
+              <li><span class="year pixel">2023 – 2026</span><h4>SMK Al Islam Joresan</h4><p>Teknik Komputer dan Jaringan (TKJ)</p></li>
+            </ul>
+
+            <h3 class="timeline-title script">Experience</h3>
+            <ul class="timeline">
+              <li><span class="year pixel">2024 – sekarang</span><h4>Penjual Produk Digital (Freelance)</h4><p>Menjual akun langganan aplikasi premium lewat media sosial dan aplikasi pesan, mengelola pesanan, pembayaran, dan layanan purnajual.</p></li>
+              <li><span class="year pixel">sekarang</span><h4>Owner, seduise store</h4><p>Toko art commission di Telegram (moodboard, chibi, manips) bersama 5 admin.</p></li>
+              <li><span class="year pixel">mar – jul 2025</span><h4>PKL, SLC Komputer</h4><p>Perawatan dan perbaikan komputer, laptop, dan perangkat pendukung; menjelaskan hasil perbaikan ke pelanggan.</p></li>
+              <li><span class="year pixel">jan – mar 2025</span><h4>PKL, Anugrah Komputer</h4><p>Mendiagnosis kerusakan hardware dan software, instalasi ulang OS, driver, dan aplikasi.</p></li>
+              <li><span class="year pixel">2025 – 2026</span><h4>Wakil Ketua OSIS, SMK Al Islam Joresan</h4><p>Mengoordinasikan program kerja, memimpin rapat pengurus, dan menjadi penghubung siswa dengan pihak sekolah.</p></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="now">
+        <div class="now-item reveal"><div class="now-icon">⚒</div><div><b>Building</b><span>Map Roblox "Haze Lounge"</span></div></div>
+        <div class="now-item reveal"><div class="now-icon">✎</div><div><b>Learning</b><span>Python &amp; dasar sistem informasi</span></div></div>
+        <div class="now-item reveal"><div class="now-icon">⌕</div><div><b>Exploring</b><span>Business analysis &amp; data</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHAT I CAN DO ===== -->
+  <section class="section" id="skills">
+    <svg class="heart" style="top:12%;right:8%;width:60px"><use href="#heart"/></svg>
+    <svg class="sparkle" style="top:20%;left:6%;width:38px;stroke:var(--ink)"><use href="#star8"/></svg>
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag pixel">02 / my capabilities</span><br>
+        <h2 class="section-title script">What I Can Do</h2>
+      </div>
+
+      <div class="skills-grid">
+        <div class="window skill-card reveal">
+          <div class="window-bar pixel"><div class="dots"><span></span><span></span><span></span></div><span>business</span></div>
+          <div class="window-body">
+            <div class="skill-num pixel">01</div>
+            <h3>Business &amp; Information Systems</h3>
+            <p>Memahami alur bisnis dan kebutuhan pengguna, lalu menerjemahkannya ke solusi berbasis sistem informasi dan data.</p>
+            <div class="chips"><span class="chip">Analisis Kebutuhan</span><span class="chip">Pengambilan Keputusan</span><span class="chip">Data &amp; Informasi</span><span class="chip">Python Dasar</span></div>
+          </div>
+        </div>
+
+        <div class="window skill-card reveal">
+          <div class="window-bar pixel"><div class="dots"><span></span><span></span><span></span></div><span>it-support</span></div>
+          <div class="window-body">
+            <div class="skill-num pixel">02</div>
+            <h3>IT Support &amp; Networking</h3>
+            <p>Bekal dari jurusan TKJ dan PKL di servis komputer: merakit, merawat, dan memperbaiki perangkat serta jaringan dasar.</p>
+            <div class="chips"><span class="chip">Troubleshooting</span><span class="chip">Perakitan Komputer</span><span class="chip">Instalasi OS &amp; Driver</span><span class="chip">Jaringan Dasar</span></div>
+          </div>
+        </div>
+
+        <div class="window skill-card reveal">
+          <div class="window-bar pixel"><div class="dots"><span></span><span></span><span></span></div><span>creative</span></div>
+          <div class="window-body">
+            <div class="skill-num pixel">03</div>
+            <h3>Digital Creative &amp; Commerce</h3>
+            <p>Membuat konten visual dengan Canva, menulis copywriting, serta mengelola penjualan online dari promosi sampai layanan purnajual.</p>
+            <div class="chips"><span class="chip">Desain Visual</span><span class="chip">Copywriting</span><span class="chip">Customer Service</span><span class="chip">Online Selling</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tools reveal">
+        <h3 class="script">Tools</h3>
+        <div class="tool-row">
+          <span class="tool"><i style="background:var(--lime)">Py</i>Python</span>
+          <span class="tool"><i style="background:var(--pink)">&lt;/&gt;</i>HTML &amp; CSS</span>
+          <span class="tool"><i style="background:var(--sky)">VS</i>VS Code</span>
+          <span class="tool"><i style="background:#fff59a">Ca</i>Canva</span>
+          <span class="tool"><i style="background:var(--lime)">Rb</i>Roblox Studio</span>
+                    <span class="tool"><i style="background:var(--sky)">W</i>Microsoft Word</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ACHIEVEMENT ===== -->
+  <section class="section" id="achievement">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag pixel">03 / milestones</span><br>
+        <h2 class="section-title script">Achievement</h2>
+      </div>
+
+      <div class="ach-grid">
+        <div class="window ach-card reveal">
+          <div class="window-bar pixel"><div class="dots"><span></span><span></span><span></span></div><span>sep 2026</span></div>
+          <div class="window-body">
+            <span class="badge pixel">sertifikasi</span>
+            <h3>Gemini Certified Student</h3>
+            <div class="ach-meta">Google for Education · September 2026</div>
+            <p>Sertifikasi resmi dari Google for Education yang menunjukkan kemampuan memanfaatkan Gemini (AI) secara efektif dan bertanggung jawab untuk belajar dan produktivitas.</p>
+            <a href="https://edu.google.accredible.com/d5844b68-dc5a-4c36-83d9-025b30d34833" class="ach-link" target="_blank" rel="noopener">Lihat kredensial →</a>
+          </div>
+        </div>
+
+        <div class="window ach-card reveal">
+          <div class="window-bar pixel"><div class="dots"><span></span><span></span><span></span></div><span>2025 – 2026</span></div>
+          <div class="window-body">
+            <span class="badge pixel">organisasi</span>
+            <h3>Wakil Ketua OSIS</h3>
+            <div class="ach-meta">SMK Al Islam Joresan · 2025 – 2026</div>
+            <p>Dipercaya menjadi wakil ketua OSIS: mengoordinasikan program kerja, memimpin rapat pengurus, serta ikut merencanakan dan mengawasi acara sekolah.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="section" id="contact">
+    <svg class="sparkle" style="top:14%;left:10%;width:44px;fill:#fff"><use href="#spark"/></svg>
+    <svg class="heart" style="top:8%;right:8%;width:64px"><use href="#heart"/></svg>
+    <div class="container">
+      <div class="window reveal">
+        <div class="window-bar pixel"><div class="dots"><span></span><span></span><span></span></div><span>get_in_touch.exe</span></div>
+        <div class="window-body contact-box">
+          <div class="contact-left">
+            <span class="section-tag pixel">04 / contact</span>
+            <h2 class="contact-title script">Let's work<br>together!</h2>
+            <p>Terbuka untuk kolaborasi proyek, kepanitiaan, tim lomba, atau sekadar ngobrol soal sistem informasi dan bisnis digital. Jangan ragu menghubungiku ♡</p>
+            <a href="CV-Nashwa.pdf" class="btn white" download>Download CV ↓</a>
+          </div>
+
+          <div class="contact-list">
+            <a class="contact-item" href="mailto:nashwamaulina98@gmail.com">
+              <span class="ic">✉</span><span><small class="pixel">email</small><b>nashwamaulina98@gmail.com</b></span>
+            </a>
+            <a class="contact-item" href="https://github.com/nnnashwa98" target="_blank" rel="noopener">
+              <span class="ic">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+              </span>
+              <span><small class="pixel">github</small><b>github.com/nnnashwa98</b></span>
+            </a>
+            <a class="contact-item" href="https://linkedin.com/in/nashwamaulina" target="_blank" rel="noopener">
+              <span class="ic">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+              </span>
+              <span><small class="pixel">linkedin</small><b>linkedin.com/in/nashwamaulina</b></span>
+            </a>
+            <a href="mailto:nashwamaulina98@gmail.com?subject=Halo%20Nashwa!" class="btn pink" style="width:100%">Kirim email ✉</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="pixel">© 2026 Nashwa Maulina Nur Ramadhani ✦ made with ♡</footer>
+
+  <script>
+    // menu di layar HP
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+    // animasi muncul saat di-scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
